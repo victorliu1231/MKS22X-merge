@@ -2,7 +2,7 @@ import java.util.Arrays;
 //ratio should be at most 2.5-3.0
 public class KDriver{
     public static void main(String[]args){
-        System.out.println("Size\t\tMax Value\tquick/builtin ratio ");
+        System.out.println("Size\t\tMax Value\tmerge/builtin ratio ");
         int[]MAX_LIST = {1000000000,500,10};
         for(int MAX : MAX_LIST){
             for(int size = 31250; size < 2000001; size*=2){
