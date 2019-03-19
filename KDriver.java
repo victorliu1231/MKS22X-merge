@@ -4,11 +4,12 @@ public class KDriver{
     public static void main(String[]args){
         System.out.println("Size\t\tMax Value\tmerge/mergeNonOptimized ratio ");
         int[]MAX_LIST = {1000000000,10};
+        for (int in = 3; in < 50; in++){
         for(int MAX : MAX_LIST){
-            for(int size = 31250; size < 2000001; size*=4){
-            long qtime=0;
-            long btime=0;
-            //average of 5 sorts.
+          for(int size = 31250; size < 2000001; size*=4){
+          long qtime=0;
+          long btime=0;
+          //average of 5 sorts.
             for(int trial = 0 ; trial <=5; trial++){
                 int []data1 = new int[size];
                 int []data2 = new int[size];
@@ -18,7 +19,7 @@ public class KDriver{
                 }
                 long t1,t2;
                 t1 = System.currentTimeMillis();
-                Merge.mergesort(data2);
+                Merge.mergesortCounting(data2,in);
                 t2 = System.currentTimeMillis();
                 qtime += t2 - t1;
                 t1 = System.currentTimeMillis();
@@ -32,7 +33,13 @@ public class KDriver{
             }
             System.out.println(size +"\t\t"+MAX+"\t"+1.0*qtime/btime);
             }
-            System.out.println();
+            if (MAX != 10){
+              System.out.println();
+            }
+          }
+          System.out.println("insertionThreshold: "+in);
+          System.out.println("----------------------");
+          System.out.println();
         }
     }
 }

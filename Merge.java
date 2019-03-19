@@ -7,7 +7,22 @@ public class Merge{
     }
 
     private static void mergeHelp(int[] data, int start, int end){
-        if (end - start <= 9){
+        if (end - start <= 20){
+            insertionSort(data, start, end);
+        } else {
+            int middle = (end - start) / 2 + start;
+            mergeHelp(data, start, middle);
+            mergeHelp(data, middle+1, end);
+            merge(data, start, end, middle);
+        }
+    }
+
+    public static void mergesortCounting(int[]data, int threshold){
+        mergeHelpCounting(data,0,data.length - 1, threshold);
+    }
+
+    private static void mergeHelpCounting(int[] data, int start, int end, int threshold){
+        if (end - start <= threshold){
             insertionSort(data, start, end);
         } else {
             int middle = (end - start) / 2 + start;
