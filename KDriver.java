@@ -3,9 +3,9 @@ import java.util.Arrays;
 public class KDriver{
     public static void main(String[]args){
         System.out.println("Size\t\tMax Value\tmerge/builtin ratio ");
-        int[]MAX_LIST = {1000000000,500,10};
+        int[]MAX_LIST = {1000000000,10};
         for(int MAX : MAX_LIST){
-            for(int size = 31250; size < 2000001; size*=2){
+            for(int size = 31250; size < 2000001; size*=4){
             long qtime=0;
             long btime=0;
             //average of 5 sorts.
