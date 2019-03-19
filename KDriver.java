@@ -2,7 +2,7 @@ import java.util.Arrays;
 //ratio should be at most 2.5-3.0
 public class KDriver{
     public static void main(String[]args){
-        System.out.println("Size\t\tMax Value\tmerge/builtin ratio ");
+        System.out.println("Size\t\tMax Value\tmerge/mergeNonOptimized ratio ");
         int[]MAX_LIST = {1000000000,10};
         for(int MAX : MAX_LIST){
             for(int size = 31250; size < 2000001; size*=4){
@@ -22,7 +22,7 @@ public class KDriver{
                 t2 = System.currentTimeMillis();
                 qtime += t2 - t1;
                 t1 = System.currentTimeMillis();
-                Arrays.sort(data1);
+                Merge.mergesortNonOptimized(data1);
                 t2 = System.currentTimeMillis();
                 btime+= t2 - t1;
                 if(!Arrays.equals(data1,data2)){

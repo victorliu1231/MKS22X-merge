@@ -5,10 +5,25 @@ public class Merge{
     public static void mergesort(int[]data){
         mergeHelp(data,0,data.length - 1);
     }
-    
-    public static void mergeHelp(int[] data, int start, int end){
+
+    private static void mergeHelp(int[] data, int start, int end){
+        if (end - start <= 9){
+            insertionSort(data, start, end);
+        } else {
+            int middle = (end - start) / 2 + start;
+            mergeHelp(data, start, middle);
+            mergeHelp(data, middle+1, end);
+            merge(data, start, end, middle);
+        }
+    }
+
+    public static void mergesortNonOptimized(int[]data){
+        mergeHelpNonOptimized(data,0,data.length - 1);
+    }
+
+    private static void mergeHelpNonOptimized(int[] data, int start, int end){
         if (start >= end){
-            return;
+            swap(data, start, end);
         }
         int middle = (end - start) / 2 + start;
         mergeHelp(data, start, middle);
@@ -16,7 +31,7 @@ public class Merge{
         merge(data, start, end, middle);
     }
 
-    public static void merge(int[] data, int start, int end, int middle){
+    private static void merge(int[] data, int start, int end, int middle){
         if (end - start == 1){
             if (data[end] < data[start]){
                 swap(data,end,start);
@@ -62,7 +77,25 @@ public class Merge{
         }
     }
 
-    public static void swap(int[] data, int a, int b){
+    private static void insertionSort(int[] ary, int start, int end){
+      int storer = ary[start];
+      boolean madeSwaps = false;
+      for (int n = start+1; n < end+1; n++){ //loops through whole thing, starting with the unsorted part
+        storer = ary[n]; //the value that wants to be sorted
+        int i = n;
+        while (i > start && storer < ary[i-1]){ //looping through sorted part and finding out where to place it
+          ary[i] = ary[i-1]; //while looping, shifting over the elements to make room for the storer
+          i--;
+          madeSwaps = true;
+        }
+        if (madeSwaps){ //only if the while loop runs will you actually edit the sorted part
+          ary[i] = storer;
+        }
+        madeSwaps = false; //resets the boolean so next pass has a clean slate
+      }
+    }
+
+    private static void swap(int[] data, int a, int b){
         int storer = data[a];
         data[a] = data[b];
         data[b] = storer;
