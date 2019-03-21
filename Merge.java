@@ -3,111 +3,57 @@ import java.util.Arrays;
 public class Merge{
     /*sort the array from least to greatest value. This is a wrapper function*/
     public static void mergesort(int[]data){
-        mergeHelp(data,0,data.length - 1);
+        int[] temp = new int[data.length];
+        mergesortHelp(data,0,data.length - 1, temp);
     }
 
-    private static void mergeHelp(int[] data, int start, int end){
+    private static void mergesortHelp(int[] data, int start, int end, int[] temp){
         if (end - start <= 47){
             insertionSort(data, start, end);
         } else {
-            int middle = (end - start) / 2 + start;
-            mergeHelp(data, start, middle);
-            mergeHelp(data, middle+1, end);
-            merge(data, start, end, middle);
+            if (start >= end) return;
+            int middle = (end + start) / 2;
+            mergesortHelp(data, start, middle, temp);
+            mergesortHelp(data, middle+1, end, temp);
+            merge(data, start, end, middle, temp);
         }
     }
 
-    public static void mergesortOptimized(int[]data){
-        int[] temp = new int[data.length];
-        mergeHelpOptimized(data,0,data.length - 1, temp);
-    }
-
-    private static void mergeHelpOptimized(int[] data, int start, int end, int[] temp){
-        if (end - start <= 10){
-            insertionSort(data, start, end);
-        } else {
-            int middle = (end - start) / 2 + start;
-            mergeHelpOptimized(data, start, middle, temp);
-            mergeHelpOptimized(data, middle+1, end, temp);
-            mergeOptimized(data, start, end, middle, temp);
-        }
-    }
-
-    private static void merge(int[] data, int start, int end, int middle){
-        int[] temp = new int[end-start+1];
+    private static void merge(int[] data, int start, int end, int middle, int[] temp){
         int firstAryIndexing = start;
         int secondAryIndexing = middle+1;
-        for (int i = start; i < end+1; i++){
-            int sumOfIndices = firstAryIndexing + secondAryIndexing - start - middle;
+        for (int i = start; i < end; i++){
             if (data[firstAryIndexing] <= data[secondAryIndexing]){
-                temp[sumOfIndices - 1] = data[firstAryIndexing];
-                if (i == end - start){
-                    temp[sumOfIndices] = data[secondAryIndexing];
+                temp[i] = data[firstAryIndexing];
+                if (i == end-1){
+                    temp[end] = data[secondAryIndexing];
                 }
                 else if (firstAryIndexing == middle){
-                    int counter = 0;
-                    for (int in = secondAryIndexing; in <= end; in++){
-                        temp[sumOfIndices+counter] = data[secondAryIndexing+counter];
-                        counter++;
+                    while (secondAryIndexing < end + 1){
+                        temp[secondAryIndexing] = data[secondAryIndexing];
+                        secondAryIndexing++;
                     }
-                    i = end + 1;
+                    i = end;
                 } else {
                     firstAryIndexing++;
                 }
-            } else {
-                temp[sumOfIndices - 1] = data[secondAryIndexing];
-                if (secondAryIndexing == end){
-                    int counter = 0;
-                    for (int in = firstAryIndexing; in <= middle; in++){
-                        temp[sumOfIndices+counter] = data[firstAryIndexing+counter];
-                        counter++;
+            } else if (data[firstAryIndexing] > data[secondAryIndexing]){
+                temp[i] = data[secondAryIndexing];
+                if (i == end - 1){
+                    temp[end] = data[firstAryIndexing];
+                }
+                else if (secondAryIndexing == end){
+                    while (i < end){
+                        temp[i+1] = data[firstAryIndexing];
+                        firstAryIndexing++;
+                        i++;
                     }
-                    i = end + 1;
                 } else {
                     secondAryIndexing++;
                 }
             }
         }
-        for (int ind = 0; ind < temp.length; ind++){
-            data[start+ind] = temp[ind];
-        }
-    }
-
-    private static void mergeOptimized(int[] data, int start, int end, int middle, int[] temp){
-        int firstAryIndexing = start;
-        int secondAryIndexing = middle+1;
-        for (int i = start; i < end+1; i++){
-            int sumOfIndices = firstAryIndexing + secondAryIndexing - middle;
-            if (data[firstAryIndexing] <= data[secondAryIndexing]){
-                temp[sumOfIndices - 1] = data[firstAryIndexing];
-                if (i == end){
-                    temp[sumOfIndices] = data[secondAryIndexing];
-                }
-                else if (firstAryIndexing == middle){
-                    int counter = 0;
-                    for (int in = secondAryIndexing; in <= end; in++){
-                        temp[sumOfIndices + counter] = data[secondAryIndexing + counter];
-                        counter++;
-                    }
-                    i = end + 1;
-                } else {
-                    firstAryIndexing++;
-                }
-            } else {
-                temp[sumOfIndices - 1] = data[secondAryIndexing];
-                if (secondAryIndexing == end){
-                    int counter = 0;
-                    for (int in = firstAryIndexing; in <= middle; in++){
-                        temp[sumOfIndices+counter] = data[firstAryIndexing+counter];
-                        counter++;
-                    }
-                    i = end + 1;
-                } else {
-                    secondAryIndexing++;
-                }
-            }
-        }
-        for (int ind = start; ind < end; ind++){
+        for (int ind = start; ind < end+1; ind++){
             data[ind] = temp[ind];
         }
     }
