@@ -8,10 +8,12 @@ public class Merge{
     }
 
     private static void mergesortHelp(int[] data, int start, int end, int[] temp){
-        if (end - start <= 47){
+        if (end - start <= 43){
             insertionSort(data, start, end);
         } else {
-            if (start >= end) return;
+            if (start >= end){
+                return;
+            }
             int middle = (end + start) / 2;
             mergesortHelp(data, start, middle, temp);
             mergesortHelp(data, middle+1, end, temp);
@@ -23,10 +25,12 @@ public class Merge{
         int firstAryIndexing = start;
         int secondAryIndexing = middle+1;
         for (int i = start; i < end; i++){
-            if (data[firstAryIndexing] <= data[secondAryIndexing]){
-                temp[i] = data[firstAryIndexing];
+            int firstAryVal = data[firstAryIndexing];
+            int secondAryVal = data[secondAryIndexing];
+            if (firstAryVal <= secondAryVal){
+                temp[i] = firstAryVal;
                 if (i == end-1){
-                    temp[end] = data[secondAryIndexing];
+                    temp[end] = secondAryVal;
                 }
                 else if (firstAryIndexing == middle){
                     while (secondAryIndexing < end + 1){
@@ -37,10 +41,10 @@ public class Merge{
                 } else {
                     firstAryIndexing++;
                 }
-            } else if (data[firstAryIndexing] > data[secondAryIndexing]){
-                temp[i] = data[secondAryIndexing];
+            } else if (firstAryVal > secondAryVal){
+                temp[i] = secondAryVal;
                 if (i == end - 1){
-                    temp[end] = data[firstAryIndexing];
+                    temp[end] = firstAryVal;
                 }
                 else if (secondAryIndexing == end){
                     while (i < end){
@@ -59,10 +63,9 @@ public class Merge{
     }
 
     private static void insertionSort(int[] ary, int start, int end){
-      int storer = ary[start];
       boolean madeSwaps = false;
       for (int n = start+1; n < end+1; n++){ //loops through whole thing, starting with the unsorted part
-        storer = ary[n]; //the value that wants to be sorted
+        int storer = ary[n]; //the value that wants to be sorted
         int i = n;
         while (i > start && storer < ary[i-1]){ //looping through sorted part and finding out where to place it
           ary[i] = ary[i-1]; //while looping, shifting over the elements to make room for the storer
